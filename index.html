@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            background-color: #f5e1da;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            position: relative;
+            transition: background-image 0.5s ease-in-out;
+        }
+        h1 {
+            font-size: 3em;
+            z-index: 2;
+            color: #b22222;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+            animation: pulse 1s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        .buttons {
+            margin-top: 20px;
+            z-index: 2;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 15px 25px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .yes {
+            background-color: #ff69b4;
+            color: white;
+            animation: glow 1s infinite alternate;
+        }
+        .no {
+            background-color: #d9534f;
+            color: white;
+        }
+        button:hover {
+            transform: scale(1.2);
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #ff69b4; }
+            to { box-shadow: 0 0 15px #ff1493; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="snoopyMusic" loop>
+        <source src="snoopy-theme.mp3" type="audio/mpeg">
+    </audio>
+    <h1 id="question">Will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+        <button class="yes" id="yesButton" onclick="yesClicked()">Yes</button>
+        <button class="no" id="noButton" onclick="noClicked()">No</button>
+    </div>
+    
+    <script>
+        let clickCount = 0;
+        let backgrounds = [
+            'snoopy1.jpg', 'snoopy2.jpg', 'snoopy3.jpg',
+            'sadcat1.jpg', 'sadcat2.jpg', 'sadcat3.jpg'
+        ];
+        let noTexts = [
+            'Are you sure? 😢', 'Really? 🥺', 'Think again... 😭',
+            'No isn’t an option! 😡', 'PLEASE DON’T DO THIS 😱',
+            'I CAN’T GO ON WITHOUT YOU 💀', 'YOU ARE BREAKING MY HEART 💔'
+        ];
+        let funnySounds = [
+            'vine-boom.mp3', 'windows-xp-error.mp3', 'sad-trombone.mp3'
+        ];
+        
+        function playSound(url) {
+            let audio = new Audio(url);
+            audio.play();
+        }
+        
+        function startMusic() {
+            let music = document.getElementById("snoopyMusic");
+            music.play();
+        }
+        
+        function noClicked() {
+            if (clickCount === 0) startMusic();
+            clickCount++;
+            let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+            document.body.style.backgroundImage = `url('${randomBg}')`;
+            let newText = noTexts[Math.min(clickCount, noTexts.length - 1)];
+            document.getElementById('noButton').innerText = newText;
+            playSound(funnySounds[Math.floor(Math.random() * funnySounds.length)]);
+            document.getElementById('yesButton').style.transform = `scale(${1 + clickCount * 0.3})`;
+        }
+        
+        function yesClicked() {
+            playSound('tada.mp3');
+            document.body.innerHTML = `
+                <h1>YAY! I LOVE YOU! ❤️</h1>
+                <p style="font-size: 1.5em; color: #b22222; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">Happy 6th Valentine’s together! I am so grateful for every moment we’ve spent together, and I can’t wait for many more. 
+                You inspire me every day, and I will always support you in achieving your dreams and our dreams together. 
+                You are my world, and I love you endlessly! ❤️</p>
+                <div style="font-size: 3em;">🎉🎉🎉</div>
+            `;
+        }
+    </script>
+</body>
+</html>
